@@ -65,7 +65,8 @@ void signin(nasabah nasabah1, nasabah nasabah2) {
 void layanan(nasabah nasabah_signin, nasabah nasabah1) {
   print("===== PILIH LAYANAN TRANSAKSI ======");
   print("1. Informasi Saldo");
-  print("2. Keluar");
+  print("3. Tarik Tunai");
+  print("5. Keluar");
 
   print("Masukkan Layanan Yang Anda Pilih");
   stdout.write("Layanan : ");
@@ -88,6 +89,30 @@ void layanan(nasabah nasabah_signin, nasabah nasabah1) {
         break;
       }
     case 2:
+      {
+        print("===== Masukkan Nominal Tarik Tunai =====");
+        stdout.write("Nominal : ");
+        int? tariktunai_input = int.parse(stdin.readLineSync()!);
+        if (tariktunai_input > nasabah_signin.saldo) {
+          print(" Saldo Anda Tidak Cukup");
+          layanan(nasabah_signin, nasabah1);
+        } else {
+          nasabah_signin.saldo -= tariktunai_input;
+          print("===== Sisa Saldo Anda =====");
+          print(nasabah_signin.saldo);
+          print("===== KONFIRMASI=====");
+          stdout.write("Apakah Masih Ingin Melanjutkan Transaksi (Y/T) : ");
+          String? konfirmasi_input = stdin.readLineSync();
+          if (konfirmasi_input == "Y") {
+            signin(nasabah_signin, nasabah1);
+          }
+          if (konfirmasi_input == "T") {
+            finish();
+          }
+        }
+        break;
+      }
+    case 3:
       {
         print("===== KELUAR =====");
         finish();
