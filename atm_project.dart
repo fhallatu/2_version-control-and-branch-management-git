@@ -65,7 +65,9 @@ void signin(nasabah nasabah1, nasabah nasabah2) {
 void layanan(nasabah nasabah_signin, nasabah nasabah1) {
   print("===== PILIH LAYANAN TRANSAKSI ======");
   print("1. Informasi Saldo");
-  print("3. Tarik Tunai");
+  print("2. Tarik Tunai");
+  print("3. Setoran Tunai");
+  print("4. Transfer");
   print("5. Keluar");
 
   print("Masukkan Layanan Yang Anda Pilih");
@@ -113,6 +115,61 @@ void layanan(nasabah nasabah_signin, nasabah nasabah1) {
         break;
       }
     case 3:
+      {
+        print("===== Masukkan Uang Anda =====");
+        stdout.write("Nominal : ");
+        int? setortunai_input = int.parse(stdin.readLineSync()!);
+        nasabah_signin.saldo += setortunai_input;
+        print("===== Saldo Anda =====");
+        print(nasabah_signin.saldo);
+        print("===== KONFIRMASI=====");
+        stdout.write("Apakah Masih Ingin Melanjutkan Transaksi (Y/T) : ");
+        String? konfirmasi_input = stdin.readLineSync();
+        if (konfirmasi_input == "Y") {
+          signin(nasabah_signin, nasabah1);
+        }
+        if (konfirmasi_input == "T") {
+          finish();
+        }
+        break;
+      }
+    case 4:
+      {
+        print("===== Transfer =====");
+        print("===== Masukkan Nomor Rekening Tujuan =====");
+        stdout.write("Nomor Rekening Tujuan : ");
+        int? rekening_input = int.parse(stdin.readLineSync()!);
+        if (rekening_input == nasabah1.rekening) {
+          print("===== Rekening Tujuan =====");
+          print("Nama : " + nasabah1.nama);
+          print("Nomor Rekening : ${nasabah1.getrekening()} ");
+          print("===== Masukkan Nominal Transfer =====");
+          stdout.write("Nominal Transfer : ");
+          int? transfer_input = int.parse(stdin.readLineSync()!);
+          if (transfer_input > nasabah_signin.saldo) {
+            print(" Saldo Anda Tidak Cukup");
+            layanan(nasabah_signin, nasabah1);
+          } else {
+            nasabah_signin.saldo -= transfer_input;
+            nasabah1.saldo += transfer_input;
+            print("===== Saldo Anda =====");
+            print(nasabah_signin.saldo);
+            print("===== KONFIRMASI=====");
+            stdout.write("Apakah Masih Ingin Melanjutkan Transaksi (Y/T) : ");
+            String? konfirmasi_input = stdin.readLineSync();
+            if (konfirmasi_input == "Y") {
+              signin(nasabah_signin, nasabah1);
+            }
+            if (konfirmasi_input == "T") {
+              finish();
+            }
+          }
+        } else if (rekening_input == nasabah_signin.rekening) {
+          print(" Rekening Tujuan Salah");
+        }
+        break;
+      }
+    case 5:
       {
         print("===== KELUAR =====");
         finish();
